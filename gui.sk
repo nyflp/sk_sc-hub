@@ -1,0 +1,45 @@
+on click with a blaze powder:
+	player's held item's name contains "&6Nos modes de jeux"
+	send "&cNous n'avons pas encore de modes de jeux." to player
+
+on click with an item frame:
+	player's held item's name contains "&fLa liste des hubs"
+	openHubList(player)
+
+on click with a gold ingot:
+	player's held item's name contains "&eLe magasin"
+	send "&cNous n'avons pas encore de magasin." to player
+
+on click with a player head:
+	player's held item's name contains "&bVotre profil"
+	send "&cVotre profil n'est pas encore accessible." to player
+
+function openHubList(p: player):
+	set {_n} to 0
+	set {_svp} to getGlobal("server_list")
+	replace all " and " in {_svp} with ", "
+	set {_sv::*} to {_svp} split at ", "
+	loop {_sv::*}:
+		loop-value contains "hub"
+		loop-value does not contain "dev"
+		set {_l::%{_n}%} to loop-value
+		add 1 to {_n}
+	{_n} is 0:
+		send "&cAucun hub viable n'est actuellement disponible." to {_p}
+		stop
+	set {_gui} to chest inventory with (rounded up ({_n}/9)) rows named "&8Liste des hubs"
+	set {_n} to 0
+	loop (sorted {_l::*}):
+		set {_pl} to getGlobal("plist.%loop-value%")
+		{_pl} is "":
+			set {_pl} to 0
+		set {_sl} to loop-value
+		replace all "hub_" in {_sl} with ""
+		{_sl} is "dev":
+			{rank::%{_p}'s uuid%} is "Admin"
+			set slot {_n} of {_gui} to 1 of command block item named "&b&l%loop-value in upper case%" with lore "&e%{_pl}% joueur(s) &fde connecté(s) sur ce hub.%nl%&7&mCliquez pour rejoindre.&c&o (Pas encore disponible)"
+		else:
+			set {_sl} to {_sl} parsed as a number
+			set slot {_n} of {_gui} to {_sl} of painting item named "&b&l%loop-value in upper case%" with lore "&e%{_pl}% joueur(s) &fde connecté(s) sur ce hub.%nl%&7&mCliquez pour rejoindre.&c&o (Pas encore disponible)"
+		add 1 to {_n}
+	open {_gui} to {_p}

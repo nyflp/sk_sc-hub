@@ -1,0 +1,65 @@
+# a mettre dans un item.sk quand le bug de la 2.14.0 sera patch
+
+function getHubItems(p: player):
+	clear {_p}'s inventory
+	set slot 8 of {_p}'s inventory to {_p}'s skull named "&bVotre profil"
+	set slot 0 of {_p}'s inventory to blaze powder named "&6Nos modes de jeux"
+	set slot 1 of {_p}'s inventory to item frame item named "&fLa liste des hubs"
+	set slot 7 of {_p}'s inventory to gold ingot named "&eLe magasin"
+
+
+################################################
+
+
+
+
+
+
+command /spawn:
+	trigger:
+		teleport player to {spawn}
+		getHubItems(player)
+on join:
+	set join message to "%team prefix of team of player%%player%&6 à rejoint le lobby !"
+	teleport player to {spawn}
+	heal player
+	set player's food level to 20
+	set player's gamemode to adventure
+	getHubItems(player)
+	
+on quit:
+	set quit message to ""
+
+
+on right click on item frame:
+	player's gamemode is adventure
+	cancel event
+on damage:
+	cancel event
+on drop:
+	player's gamemode is adventure
+	cancel event
+on craft:
+	player's gamemode is adventure
+	cancel event
+on consume:
+	player's gamemode is adventure
+	cancel event
+on step on pressure plate:
+	player's gamemode is adventure
+	cancel event
+on inventory click:
+	player's gamemode is adventure
+	cancel event
+on swap hand items:
+	player's gamemode is adventure
+	cancel event
+on block trample:
+	if type of event-block is farmland:
+		cancel event
+on hunger meter change:
+	set player's food level to 20
+	set player's hunger level to 20
+on player interact:
+	player's gamemode is adventure
+	cancel event

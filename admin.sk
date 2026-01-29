@@ -1,0 +1,4 @@
+command /setspawn:
+	permission: skperm.admin
+	trigger:
+		set {spawn} to player's location
