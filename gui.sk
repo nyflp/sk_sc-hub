@@ -1,18 +1,17 @@
 on click with a blaze powder:
+	player's game mode is adventure
 	player's held item's name contains "&6Nos modes de jeux"
-	send "&cNous n'avons pas encore de modes de jeux." to player
+	openGameList(player)
+
+function openGameList(p: player):
+	set {_gui} to chest inventory with 6 rows named "&8Nos modes de jeux"
+	set slot 0 of {_gui} to snowball named "&e&lPITCH-OUT FFA"
+	open {_gui} to {_p}
 
 on click with an item frame:
+	player's game mode is adventure
 	player's held item's name contains "&fLa liste des hubs"
 	openHubList(player)
-
-on click with a gold ingot:
-	player's held item's name contains "&eLe magasin"
-	send "&cNous n'avons pas encore de magasin." to player
-
-on click with a player head:
-	player's held item's name contains "&bVotre profil"
-	send "&cVotre profil n'est pas encore accessible." to player
 
 function openHubList(p: player):
 	set {_n} to 0
@@ -27,7 +26,7 @@ function openHubList(p: player):
 	{_n} is 0:
 		send "&cAucun hub viable n'est actuellement disponible." to {_p}
 		stop
-	set {_gui} to chest inventory with (rounded up ({_n}/9)) rows named "&8Liste des hubs"
+	set {_gui} to chest inventory with (rounded up ({_n}/9)) rows named "&8La liste des hubs"
 	set {_n} to 0
 	loop (sorted {_l::*}):
 		set {_pl} to getGlobal("plist.%loop-value%")
@@ -43,3 +42,14 @@ function openHubList(p: player):
 			set slot {_n} of {_gui} to {_sl} of painting item named "&b&l%loop-value in upper case%" with lore "&e%{_pl}% joueur(s) &fde connecté(s) sur ce hub.%nl%&7&mCliquez pour rejoindre.&c&o (Pas encore disponible)"
 		add 1 to {_n}
 	open {_gui} to {_p}
+
+
+on click with a gold ingot:
+	player's game mode is adventure
+	player's held item's name contains "&eLe magasin"
+	send "&cNous n'avons pas encore de magasin." to player
+
+on click with a player head:
+	player's game mode is adventure
+	player's held item's name contains "&bVotre profil"
+	send "&cVotre profil n'est pas encore accessible." to player
